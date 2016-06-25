@@ -1,0 +1,38 @@
+#!/usr/bin/env lua
+
+local os = os
+local print = print
+local table = table
+local pairs = pairs
+local ipairs = ipairs
+
+local help_doc = [[help]]
+
+local cli_opts = {
+    -- Unamed args, parsed later
+    env = nil,
+    url = nil,
+    -- Booleans for arg_to_opt below
+    help = false
+}
+
+new_arg = {}
+arg_to_opt = {
+    ['-h'] = 'help',
+    ['--help'] = 'help'
+}
+
+for key, value in ipairs(arg) do
+    if arg_to_opt[value] then
+        opts[arg_to_opt[value]] = true
+
+    -- Unknown arg? Attach to new_arg
+    else
+        table.insert(new_arg, value)
+    end
+end
+
+if opts.help then
+    print(help_doc)
+    os.exit()
+end
